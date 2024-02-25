@@ -1,0 +1,29 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: EtherWallet
+    network: scroll-sepolia
+    source:
+      address: "0xEd398Dd3D4C89eb4d836Cb3a96539B05C0B48dc0"
+      abi: EtherWallet
+      startBlock: 3061371
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Donated
+        - Withdrawn
+      abis:
+        - name: EtherWallet
+          file: ./abis/EtherWallet.json
+      eventHandlers:
+        - event: Donated(address)
+          handler: handleDonated
+        - event: Withdrawn(uint256,address)
+          handler: handleWithdrawn
+      file: ./src/ether-wallet.ts
